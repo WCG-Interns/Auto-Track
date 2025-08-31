@@ -13,7 +13,7 @@ const notifyRoutes = require("./routes/notifyRoutes");
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://auto-track-client.onrender.com",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
