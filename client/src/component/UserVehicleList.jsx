@@ -1,221 +1,179 @@
 import React, { useState } from 'react';
-const Modal = ({ title, message, onConfirm, onCancel }) => {
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">{title}</h2>
-        <p className="mb-6">{message}</p>
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-          >
-            Cancel
-          </button>
-          <button 
-            onClick={onConfirm}
-            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const VehicleForm = ({ vehicle, mode, onClose, onSave }) => {
-  const isView = mode === 'view';
-  const [formData, setFormData] = useState(
-    vehicle || {
-      vehicleNumber: '',
-      //model: '',
-      vehicleType: '',
-      ownerName: '',
-      insurance: '',
-      fitnessExpiry: '',
-      permitExpiry: '',
-      pollutionExpiry: '',
-      taxExpiry: '',
-      documentStatus: '',
-      createdBy: '',
-      createdAt: new Date().toISOString().split('T')[0],
-    }
-  );
-
-  const handleChange = (e) => {
-    if (isView) return;
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isView) {
-      onSave(formData);
-    }
-  };
-
-  return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">
-        {mode.charAt(0).toUpperCase() + mode.slice(1)} Vehicle
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {[
-          { label: 'Vechicle Number', name: 'number' },
-          //  { label: 'Vechicle Model', name: 'model' },
-          { label: 'Vechicle Type', name: 'type' },
-          { label: 'OwnerName', name: 'owner' },
-          { label: 'InsuranceExpiry', name: 'insurance' },
-          { label: 'FitnessExpiry', name: 'fitness' },
-          { label: 'PermitExpiry', name: 'permit' },
-          { label: 'PollutionExpiry', name: 'pollution' },
-          { label: 'TaxExpiry', name: 'tax' },
-          { label: 'documentStatus', name: 'status' },
-          { label: 'Created By', name: 'createdBy' },
-          { label: 'Created At', name: 'createdAt' },
-        ].map(({ label, name }) => (
-          <div key={name}>
-            <label className="block font-medium mb-1" htmlFor={name}>
-              {label}
-            </label>
-            {isView ? (
-              <p className="border p-2 rounded bg-gray-100">{formData[name]}</p>
-            ) : (
-              <input
-                type="text"
-                id={name}
-                name={name}
-                value={formData[name]}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            )}
-          </div>
-        ))}
-
-        <div className="flex justify-end gap-4 pt-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-          >
-            {isView ? 'Close' : 'Cancel'}
-          </button>
-          {!isView && (
-            <button
-              type="submit"
-              className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-            >
-              Save
-            </button>
-          )}
-        </div>
-      </form>
-    </div>
-  );
-};
+import { FaCalendarAlt, FaUser, FaCar } from 'react-icons/fa';
 
 const UserVehicleList = ({ vehicleDetails }) => {
   const [vehicles, setVehicles] = useState(vehicleDetails);
-  const [selected, setSelected] = useState(null);
-  const [mode, setMode] = useState('');
-  const [showModal, setShowModal] = useState(false);
 
-  const handleDelete = () => {
-    setVehicles(vehicles.filter((v) => v.id !== selected.id));
-    setShowModal(false);
-    setSelected(null);
-  };
-
-  const getExpiryColor = (dateStr) => {
+  const getExpiryStatus = (dateStr) => {
+    if (!dateStr) return { color: 'text-gray-200', bgColor: 'bg-gray-600/80', status: 'N/A' };
+    
     const expiry = new Date(dateStr);
     const today = new Date();
-    const diffInDays = (expiry - today) / (1000 * 60 * 60 * 24);
-    return diffInDays <= 7 ? 'red' : 'black';
+    const diffInDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+    
+    if (diffInDays < 0) {
+      return { color: 'text-red-200', bgColor: 'bg-red-600/80', status: 'Expired' };
+    } else if (diffInDays <= 7) {
+      return { color: 'text-yellow-200', bgColor: 'bg-yellow-600/80', status: 'Expiring Soon' };
+    } else if (diffInDays <= 30) {
+      return { color: 'text-orange-200', bgColor: 'bg-orange-600/80', status: 'Due Soon' };
+    } else {
+      return { color: 'text-green-200', bgColor: 'bg-green-600/80', status: 'Valid' };
+    }
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Vehicle List</h1>
-
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-white flex items-center">
+            <FaCar className="mr-3 text-blue-400" />
+            My Vehicles
+          </h2>
+          <p className="text-gray-300 mt-1">Track your vehicles and document expiry dates</p>
+        </div>
       </div>
 
-      {mode ? (
-        <VehicleForm
-          vehicle={selected}
-          mode={mode}
-          onClose={() => {
-            setMode('');
-            setSelected(null);
-          }}
-          onSave={(data) => {
-            if (mode === 'edit') {
-              setVehicles(vehicles.map((v) => (v.id === data.id ? data : v)));
-            } else {
-              setVehicles([...vehicles, { ...data, id: Date.now() }]);
-            }
-            setMode('');
-            setSelected(null);
-          }}
-        />
-      ) : (
-        <div className="overflow-x-auto rounded-lg shadow">
-          <table className="w-full text-sm text-left text-gray-700 border border-gray-200">
-            <thead className="text-xs uppercase bg-gray-100 text-gray-700">
-              <tr>
-                <th className="px-6 py-3">No.</th>
-                <th className="px-6 py-3">Number</th>
-                <th className="px-6 py-3">Owner Name</th>
-                <th className="px-6 py-3">Vehicle type</th>
-                <th className="px-6 py-3">Insurance Expiry</th>
-                <th className="px-6 py-3">Fitness Expiry</th>
-                <th className="px-6 py-3">Permit Expiry</th>
-                <th className="px-6 py-3">Pollution Expiry</th>
-                <th className="px-6 py-3">Tax Expiry</th>
-                <th className="px-6 py-3">Document Status</th>
-                <th className="px-6 py-3">Create By</th>
-                <th className="px-6 py-3">Create At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vehicles.map((v, index) => (
-                <tr
-                  key={v.id}
-                  className="bg-white border-t hover:bg-gray-50 transition duration-150"
-                >
-                  <td className="px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4">{v.vehicleNumber}</td>
-                  <td className="px-6 py-4">{v.ownerName}</td>
-                  <td className="px-6 py-4">{v.vehicleType}</td>
-                  <td className="px-6 py-4" style={{ color: getExpiryColor(v.insuranceExpiry) }}>{v.insuranceExpiry ? new Date(v.insuranceExpiry).toLocaleDateString() : 'N/A'}</td>
-                  <td className="px-6 py-4" style={{ color: getExpiryColor(v.fitnessExpiry) }}>{v.fitnessExpiry ? new Date(v.fitnessExpiry).toLocaleDateString() : 'N/A'}</td>
-                  <td className="px-6 py-4" style={{ color: getExpiryColor(v.permitExpiry) }}>{v.permitExpiry ? new Date(v.permitExpiry).toLocaleDateString() : 'N/A'}</td>
-                  <td className="px-6 py-4" style={{ color: getExpiryColor(v.pollutionExpiry) }}>{v.pollutionExpiry ? new Date(v.pollutionExpiry).toLocaleDateString() : 'N/A'}</td>
-                  <td className="px-6 py-4" style={{ color: getExpiryColor(v.taxExpiry) }}>{v.taxExpiry ? new Date(v.taxExpiry).toLocaleDateString() : 'N/A'}</td>
-                  <td className="px-6 py-4">{v.documentStatus}</td>
-                  <td className="px-6 py-4">{v.createdBy?.name || v.createdBy?.email || v.createdBy}</td>
-                  <td className="px-6 py-4">{v.createdAt ? new Date(v.createdAt).toLocaleDateString() : 'N/A'}</td>
-
-
+      {/* Vehicles Table */}
+      <div className="bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl">
+        {vehicles.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="bg-blue-500/20 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+              <FaCar className="text-blue-400 text-3xl" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-4">No Vehicles Found</h3>
+            <p className="text-gray-300 mb-6">You don't have any registered vehicles yet. Contact your administrator to add vehicles.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-700/60">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">#</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Vehicle</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Owner</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Type</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Insurance</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Fitness</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Permit</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Pollution</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Tax</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Created By</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-200 uppercase tracking-wider">Created</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {showModal && (
-        <Modal
-          title="Confirm Deletion"
-          message={`Are you sure you want to delete "${selected?.number}"?`}
-          onConfirm={handleDelete}
-          onCancel={() => setShowModal(false)}
-        />
-      )}
+              </thead>
+              <tbody className="divide-y divide-slate-700/50">
+                {vehicles.map((v, index) => (
+                  <tr key={v.id || index} className="hover:bg-slate-700/40 transition-colors duration-200">
+                    <td className="px-6 py-4 text-gray-100 font-semibold">{index + 1}</td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="font-bold text-white text-base">{v.vehicleNumber}</div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="flex items-center">
+                        <FaUser className="text-blue-400 mr-2 text-sm" />
+                        <span className="text-gray-100 font-medium">{v.ownerName}</span>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <span className="bg-blue-600/80 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        {v.vehicleType}
+                      </span>
+                    </td>
+                    
+                    {/* Expiry Dates with Status Indicators */}
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className={getExpiryStatus(v.insurance || v.insuranceExpiry).color + " font-semibold text-sm"}>
+                          {formatDate(v.insurance || v.insuranceExpiry)}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full mt-1 inline-block w-fit font-semibold ${getExpiryStatus(v.insurance || v.insuranceExpiry).bgColor} ${getExpiryStatus(v.insurance || v.insuranceExpiry).color}`}>
+                          {getExpiryStatus(v.insurance || v.insuranceExpiry).status}
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className={getExpiryStatus(v.fitnessExpiry).color + " font-semibold text-sm"}>
+                          {formatDate(v.fitnessExpiry)}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full mt-1 inline-block w-fit font-semibold ${getExpiryStatus(v.fitnessExpiry).bgColor} ${getExpiryStatus(v.fitnessExpiry).color}`}>
+                          {getExpiryStatus(v.fitnessExpiry).status}
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className={getExpiryStatus(v.permitExpiry).color + " font-semibold text-sm"}>
+                          {formatDate(v.permitExpiry)}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full mt-1 inline-block w-fit font-semibold ${getExpiryStatus(v.permitExpiry).bgColor} ${getExpiryStatus(v.permitExpiry).color}`}>
+                          {getExpiryStatus(v.permitExpiry).status}
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className={getExpiryStatus(v.pollutionExpiry).color + " font-semibold text-sm"}>
+                          {formatDate(v.pollutionExpiry)}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full mt-1 inline-block w-fit font-semibold ${getExpiryStatus(v.pollutionExpiry).bgColor} ${getExpiryStatus(v.pollutionExpiry).color}`}>
+                          {getExpiryStatus(v.pollutionExpiry).status}
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className={getExpiryStatus(v.taxExpiry).color + " font-semibold text-sm"}>
+                          {formatDate(v.taxExpiry)}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full mt-1 inline-block w-fit font-semibold ${getExpiryStatus(v.taxExpiry).bgColor} ${getExpiryStatus(v.taxExpiry).color}`}>
+                          {getExpiryStatus(v.taxExpiry).status}
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <span className="bg-green-600/80 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        {v.documentStatus || 'Active'}
+                      </span>
+                    </td>
+                    
+                    <td className="px-6 py-4 text-gray-100 font-medium">
+                      {v.createdBy?.name || v.createdBy?.email || v.createdBy}
+                    </td>
+                    
+                    <td className="px-6 py-4">
+                      <div className="flex items-center text-gray-100 font-medium">
+                        <FaCalendarAlt className="mr-2 text-blue-400 text-sm" />
+                        {v.createdAt ? new Date(v.createdAt).toLocaleDateString('en-IN') : 'N/A'}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

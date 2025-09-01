@@ -35,7 +35,7 @@ const Navbar = () => {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="text-white focus:outline-none hover:cursor-pointer"
+                className="text-white focus:outline-none hover:cursor-pointer md:hidden"
               >
                 {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
               </button>
@@ -44,9 +44,9 @@ const Navbar = () => {
               </h1>
             </div>
 
-            {/* Slide-out Menu */}
+            {/* Slide-out Menu (Mobile) */}
             {menuOpen && (
-              <div className="absolute top-16 left-0 w-48 bg-white/70 backdrop-blur-md border border-white/30 shadow-lg rounded-r-lg z-50">
+              <div className="absolute top-16 left-0 w-56 bg-white/70 backdrop-blur-md border border-white/30 shadow-lg rounded-r-lg z-50 md:hidden p-2">
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
@@ -83,11 +83,26 @@ const Navbar = () => {
                 >
                   Dashboard
                 </NavLink>
+
+                {/* Profile + Logout in mobile menu */}
+                <div className="flex items-center gap-2 mt-3 px-2">
+                  <FaUserCircle size={22} className="text-gray-700" />
+                  <span className="text-gray-800">Hello, {user?.name || "User"}</span>
+                </div>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMenuOpen(false);
+                  }}
+                  className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white py-1 rounded-lg"
+                >
+                  Logout
+                </button>
               </div>
             )}
 
-            {/* Right: Profile + Hello + Logout */}
-            <div className="flex items-center gap-3 text-white">
+            {/* Right: Profile + Hello + Logout (Desktop) */}
+            <div className="hidden md:flex items-center gap-3 text-white">
               <FaUserCircle size={24} />
               <span>Hello, {user?.name || "User"}</span>
               <button
@@ -100,13 +115,21 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            {/* Left: Logo */}
-            <h1 className="text-2xl font-extrabold text-white tracking-wide font-[Poppins]">
-              🚗 AutoTrack
-            </h1>
+            {/* Left: Hamburger + Logo */}
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="text-white focus:outline-none hover:cursor-pointer md:hidden"
+              >
+                {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+              </button>
+              <h1 className="text-2xl font-extrabold text-white tracking-wide font-[Poppins]">
+                🚗 AutoTrack
+              </h1>
+            </div>
 
-            {/* Right: Links */}
-            <ul className="flex gap-8 font-medium text-white text-lg">
+            {/* Desktop Links */}
+            <ul className="hidden md:flex gap-8 font-medium text-white text-lg">
               <li>
                 <NavLink
                   to="/"
@@ -148,6 +171,48 @@ const Navbar = () => {
                 </NavLink>
               </li>
             </ul>
+
+            {/* Mobile Menu */}
+            {menuOpen && (
+              <div className="absolute top-16 left-0 w-56 bg-white/70 backdrop-blur-md border border-white/30 shadow-lg rounded-r-lg z-50 md:hidden p-2">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `${menuLinkStyle} ${isActive ? menuActiveStyle : ""}`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to="/about"
+                  className={({ isActive }) =>
+                    `${menuLinkStyle} ${isActive ? menuActiveStyle : ""}`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  About
+                </NavLink>
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    `${menuLinkStyle} ${isActive ? menuActiveStyle : ""}`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Contact
+                </NavLink>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `${menuLinkStyle} ${isActive ? menuActiveStyle : ""}`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login
+                </NavLink>
+              </div>
+            )}
           </>
         )}
       </nav>
