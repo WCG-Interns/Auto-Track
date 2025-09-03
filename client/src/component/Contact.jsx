@@ -1,55 +1,91 @@
 import React, { useState, useEffect } from "react";
-import { FaPaperPlane, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaClock, FaHeadset } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
+import {
+  FaPaperPlane,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaCheckCircle,
+  FaClock,
+  FaHeadset,
+} from "react-icons/fa";
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     let timer;
-    if (submitted) {
-      timer = setTimeout(() => setSubmitted(false), 3500);
+    if (submitted || errorMsg) {
+      timer = setTimeout(() => {
+        setSubmitted(false);
+        setErrorMsg("");
+      }, 4000);
     }
     return () => clearTimeout(timer);
-  }, [submitted]);
+  }, [submitted, errorMsg]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsLoading(false);
-      setSubmitted(true);
-      e.target.reset();
-    }, 1000);
+
+    emailjs
+      .sendForm(
+     "service_284851q",
+         "template_1tv4l43",
+        e.target,
+         "Bgi_-TNE4JD0JO9Ws"
+      )
+      .then(
+        () => {
+          setIsLoading(false);
+          setSubmitted(true);
+          setErrorMsg("");
+          e.target.reset();
+        },
+        (error) => {
+          console.error("EmailJS Error:", error.text);
+          setIsLoading(false);
+          setErrorMsg("❌ Something went wrong. Please try again later.");
+        }
+      );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 relative">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 25px 25px, rgba(156, 146, 172, 0.1) 2px, transparent 2px)',
-          backgroundSize: '50px 50px'
-        }}></div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 25px 25px, rgba(156, 146, 172, 0.1) 2px, transparent 2px)",
+            backgroundSize: "50px 50px",
+          }}
+        ></div>
       </div>
-      
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 rounded-full px-6 py-2 mb-8">
             <FaHeadset className="text-blue-400 mr-2" />
-            <span className="text-blue-300 text-sm font-medium">We're Here to Help</span>
+            <span className="text-blue-300 text-sm font-medium">
+              We're Here to Help
+            </span>
           </div>
-          
+
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Get in <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent">Touch</span>
+            Get in{" "}
+            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent">
+              Touch
+            </span>
           </h1>
-          
+
           <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Have questions about AutoTrack? We'd love to hear from you. 
-            Send us a message and we'll respond as soon as possible.
+            Have questions about AutoTrack? We'd love to hear from you. Send us
+            a message and we'll respond as soon as possible.
           </p>
         </div>
 
@@ -70,6 +106,7 @@ const Contact = () => {
                     </label>
                     <input
                       type="text"
+                      name="user_name"
                       placeholder="Enter your name"
                       required
                       className="w-full p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
@@ -81,6 +118,7 @@ const Contact = () => {
                     </label>
                     <input
                       type="email"
+                      name="user_email"
                       placeholder="Enter your email"
                       required
                       className="w-full p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
@@ -94,6 +132,7 @@ const Contact = () => {
                   </label>
                   <input
                     type="text"
+                    name="subject"
                     placeholder="What's this about?"
                     required
                     className="w-full p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
@@ -105,6 +144,7 @@ const Contact = () => {
                     Message
                   </label>
                   <textarea
+                    name="message"
                     rows="5"
                     placeholder="Tell us how we can help you..."
                     required
@@ -135,6 +175,18 @@ const Contact = () => {
                   )}
                 </button>
               </form>
+
+              {/* ✅ Feedback Messages */}
+              {submitted && (
+                <p className="mt-4 text-green-400 font-medium text-center">
+                  Thank you! Your message has been sent.
+                </p>
+              )}
+              {errorMsg && (
+                <p className="mt-4 text-red-400 font-medium text-center">
+                  {errorMsg}
+                </p>
+              )}
             </div>
           </div>
 
