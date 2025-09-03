@@ -44,6 +44,50 @@ const Navbar = () => {
               </h1>
             </div>
 
+            {/* Center: Desktop Navigation Links (when logged in) */}
+            <ul className="hidden md:flex gap-8 font-medium text-white text-lg">
+              <li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/about"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                  }
+                >
+                  About
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                  }
+                >
+                  Contact
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={dashboardLink}
+                  className={({ isActive }) =>
+                    `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            </ul>
+
             {/* Slide-out Menu (Mobile) */}
             {menuOpen && (
               <div className="absolute top-16 left-0 w-56 bg-white/70 backdrop-blur-md border border-white/30 shadow-lg rounded-r-lg z-50 md:hidden p-2">
