@@ -44,9 +44,9 @@ const Home = () => {
                 Get Started Free
                 <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
-              <button className="border border-gray-500 text-gray-300 hover:text-white hover:border-gray-400 font-semibold py-4 px-8 rounded-xl transition-all duration-300 hover:bg-white/5">
+              {/* <button className="border border-gray-500 text-gray-300 hover:text-white hover:border-gray-400 font-semibold py-4 px-8 rounded-xl transition-all duration-300 hover:bg-white/5">
                 Watch Demo
-              </button>
+              </button> */}
             </div>
           </div>
           
