@@ -194,13 +194,13 @@ const VehicleList = ({ vehiclesDetails, onAdd, onEdit, onView, onDelete }) => {
                     
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-2">
-                        <button 
+{/*                         <button 
                           onClick={() => onView(v)} 
                           className="bg-blue-600/80 hover:bg-blue-600 text-white p-2.5 rounded-lg transition-all duration-200 hover:scale-110 shadow-lg"
                           title="View Details"
                         >
                           <FaEye className="text-sm" />
-                        </button>
+                        </button> */}
                         <button 
                           onClick={() => onEdit(v)} 
                           className="bg-green-600/80 hover:bg-green-600 text-white p-2.5 rounded-lg transition-all duration-200 hover:scale-110 shadow-lg"
