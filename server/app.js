@@ -13,7 +13,10 @@ const notifyRoutes = require("./routes/notifyRoutes");
 
 
 app.use(cors({
-  origin: "https://auto-track-client.onrender.com",
+  origin: [
+    "https://auto-track-client.onrender.com",
+    "https://www.cron-job.org",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
