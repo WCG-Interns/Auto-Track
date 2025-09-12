@@ -29,6 +29,10 @@ app.use("/api/emails", emailRoutes);
 app.use("/api/phones", phoneRoutes);
 app.use("/send-reminder", notifyRoutes); // temp route
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Server online" });
+})
+
 require("./cron/checkExpiry");
 
 const PORT = process.env.PORT || 5000;
