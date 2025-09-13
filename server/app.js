@@ -27,8 +27,8 @@ app.use("/api/emails", emailRoutes);
 app.use("/api/phones", phoneRoutes);
 app.use("/send-reminder", notifyRoutes); // temp route
 
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "Server online" });
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
 })
 
 require("./cron/checkExpiry");

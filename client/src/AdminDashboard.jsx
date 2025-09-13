@@ -11,6 +11,7 @@ const AdminDashboard = () => {
   const [vehicles, setVehicles] = useState([]);
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [users, setUsers] = useState([]);
+  const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [mode, setMode] = useState(''); 
@@ -18,6 +19,8 @@ const AdminDashboard = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [vehicleToDelete, setVehicleToDelete] = useState(null);
   const [showSmsForm, setShowSmsForm] = useState(false);
+  const [showPendingUsersModal, setShowPendingUsersModal] = useState(false);
+  const [approvingUser, setApprovingUser] = useState(null);
   
   // New state for search and filter
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,7 +29,7 @@ const AdminDashboard = () => {
   const fetchVehicles = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://auto-track-server.onrender.com/api/vehicles', {
+      const response = await axios.get('http://localhost:5000/api/vehicles', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -42,7 +45,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://auto-track-server.onrender.com/api/admin/users', {
+      const response = await axios.get('http://localhost:5000/api/admin/users', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -51,6 +54,19 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error('Failed to fetch users:', err);
       // Don't show error to user for users fetch, just log it
+    }
+  };
+
+  const fetchPendingUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/admin/pending-users', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setPendingUsers(response.data);
+    } catch (err) {
+      console.error('Failed to fetch pending users:', err);
     }
   };
 
@@ -112,6 +128,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     fetchVehicles();
     fetchUsers();
+    fetchPendingUsers();
   }, []);
 
   // Called when user clicks "Add Vehicle"
@@ -161,11 +178,57 @@ const AdminDashboard = () => {
     setSelectedVehicle(null);
   };
 
+const handleApproveUser = async (userId) => {
+  setApprovingUser(userId);
+  try {
+    await axios.put(
+      `http://localhost:5000/api/admin/approve/${userId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+    
+    // Remove the approved user from pending list
+    setPendingUsers(pendingUsers.filter(user => user._id !== userId));
+    // Refresh users list
+    fetchUsers();
+  } catch (err) {
+    alert('Failed to approve user');
+  } finally {
+    setApprovingUser(null);
+  }
+};
+
+const handleApproveAllUsers = async () => {
+  try {
+    await axios.put(
+      'http://localhost:5000/api/admin/approve-all',
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+    
+    // Clear pending users list
+    setPendingUsers([]);
+    // Refresh users list
+    fetchUsers();
+    alert('All users approved successfully!');
+  } catch (err) {
+    alert('Failed to approve all users');
+  }
+};
+
   // Confirm delete API call
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(
-        `https://auto-track-server.onrender.com/api/vehicles/${vehicleToDelete._id}`,
+        `http://localhost:5000/api/vehicles/${vehicleToDelete._id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -215,6 +278,24 @@ const AdminDashboard = () => {
               Admin <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Dashboard</span>
             </h1>
             <p className="text-gray-300">Manage vehicles, users, and system analytics</p>
+          </div>
+          
+          {/* Pending Users Button */}
+          <div className="mt-4 sm:mt-0">
+            <button
+              onClick={() => setShowPendingUsersModal(true)}
+              className={`relative bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-orange-500/25 transition-all duration-300 transform hover:scale-105 flex items-center ${
+                pendingUsers.length > 0 ? 'animate-pulse' : ''
+              }`}
+            >
+              <FaUsers className="mr-2" />
+              Pending Users
+              {pendingUsers.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                  {pendingUsers.length}
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
@@ -442,6 +523,112 @@ const AdminDashboard = () => {
                   Delete
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pending Users Modal */}
+        {showPendingUsersModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 max-w-4xl w-full max-h-[80vh] shadow-2xl">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center">
+                  <div className="bg-orange-500/20 p-3 rounded-xl mr-4">
+                    <FaUsers className="text-orange-400 text-2xl" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">Pending User Approvals</h2>
+                    <p className="text-gray-300">Review and approve new user registrations</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowPendingUsersModal(false)}
+                  className="bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white p-2 rounded-xl transition-all duration-300"
+                >
+                  <FaExclamationTriangle className="text-lg rotate-45" />
+                </button>
+              </div>
+
+              {pendingUsers.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="bg-green-500/20 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <FaUsers className="text-green-400 text-3xl" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-4">No Pending Users</h3>
+                  <p className="text-gray-300">All user registrations have been processed.</p>
+                </div>
+              ) : (
+                <>
+                  {/* Approve All Button */}
+                  <div className="mb-6 flex justify-between items-center">
+                    <p className="text-gray-300">
+                      <span className="text-white font-semibold">{pendingUsers.length}</span> users waiting for approval
+                    </p>
+                    <button
+                      onClick={handleApproveAllUsers}
+                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105"
+                    >
+                      Approve All
+                    </button>
+                  </div>
+
+                  {/* Users List */}
+                  <div className="max-h-96 overflow-y-auto space-y-4">
+                    {pendingUsers.map((user) => (
+                      <div
+                        key={user._id}
+                        className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center mb-2">
+                              <div className="bg-blue-500/20 p-2 rounded-lg mr-3">
+                                <FaUsers className="text-blue-400" />
+                              </div>
+                              <div>
+                                <h4 className="text-lg font-semibold text-white">{user.name}</h4>
+                                <p className="text-gray-300 text-sm">{user.email}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm">
+                              <div>
+                                <span className="text-gray-400">Phone:</span>
+                                <span className="text-white ml-2">{user.phone || 'Not provided'}</span>
+                              </div>
+                              <div>
+                                <span className="text-gray-400">Registration Date:</span>
+                                <span className="text-white ml-2">
+                                  {new Date(user.createdAt).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="ml-6">
+                            <button
+                              onClick={() => handleApproveUser(user._id)}
+                              disabled={approvingUser === user._id}
+                              className={`bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed flex items-center ${
+                                approvingUser === user._id ? 'opacity-50' : ''
+                              }`}
+                            >
+                              {approvingUser === user._id ? (
+                                <>
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                  Approving...
+                                </>
+                              ) : (
+                                'Approve'
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

@@ -17,7 +17,8 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: "user"
+      role: "user",
+      isApproved: false
     })
 
     await EmailList.create({
@@ -25,7 +26,7 @@ exports.registerUser = async (req, res) => {
       addedBy: user._id
     });
 
-    res.status(201).json({ message: "User registered successfully" })
+    res.status(201).json({ message: "User registered successfully! Waiting for admin approval." })
   } catch (err) {
     res.status(500).json({ message: "Registration failed", error: err.message })
   }
@@ -38,6 +39,10 @@ exports.loginUser = async (req, res) => {
     const user = await User.findOne({ email })
     if (!user)
       return res.status(401).json({ message: "Invalid email or password" })
+
+    if(!user.isApproved) {
+      return res.status(403).json({message: "Your account is awaiting admin approval."});
+    }
 
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch)
