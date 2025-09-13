@@ -29,7 +29,7 @@ const AdminDashboard = () => {
   const fetchVehicles = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/api/vehicles', {
+      const response = await axios.get('https://auto-track-server.onrender.com/api/vehicles', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/users', {
+      const response = await axios.get('https://auto-track-server.onrender.com/api/admin/users', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
 
   const fetchPendingUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/pending-users', {
+      const response = await axios.get('https://auto-track-server.onrender.com/api/admin/pending-users', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -182,7 +182,7 @@ const handleApproveUser = async (userId) => {
   setApprovingUser(userId);
   try {
     await axios.put(
-      `http://localhost:5000/api/admin/approve/${userId}`,
+      `https://auto-track-server.onrender.com/api/admin/approve/${userId}`,
       {},
       {
         headers: {
@@ -205,7 +205,7 @@ const handleApproveUser = async (userId) => {
 const handleApproveAllUsers = async () => {
   try {
     await axios.put(
-      'http://localhost:5000/api/admin/approve-all',
+      'https://auto-track-server.onrender.com/api/admin/approve-all',
       {},
       {
         headers: {
@@ -228,7 +228,7 @@ const handleApproveAllUsers = async () => {
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/vehicles/${vehicleToDelete._id}`,
+        `https://auto-track-server.onrender.com/api/vehicles/${vehicleToDelete._id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
