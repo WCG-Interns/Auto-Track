@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require('dotenv').config();
 
+const sendExpiryReminders = require("./utils/sendExpiryReminders");
+
 const authRoutes = require("./routes/authRoutes");
 const vehicleRoutes = require("./routes/vehicleRoutes");
 const emailRoutes = require("./routes/emailRoutes");
@@ -25,11 +27,20 @@ app.use("/api/auth", authRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/emails", emailRoutes);
 app.use("/api/phones", phoneRoutes);
-app.use("/send-reminder", notifyRoutes); // temp route
+app.use("/manual-reminder", notifyRoutes); // temp route
 
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
-})
+});
+
+app.get("/reminder", async (req, res) => {
+  try {
+    await sendExpiryReminders();
+    res.status(200).json({ message: "Reminder sent manually" });
+  } catch (err) {
+    res.status(500).json({ message: "Error", error: err.message });
+  }
+});
 
 require("./cron/checkExpiry");
 

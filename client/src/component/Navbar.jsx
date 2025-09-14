@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -39,9 +40,17 @@ const Navbar = () => {
               >
                 {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
               </button>
-              <h1 className="text-2xl font-extrabold text-white tracking-wide font-[Poppins]">
-                🚗 AutoTrack
-              </h1>
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 text-2xl font-extrabold text-white tracking-wide font-[Poppins]"
+                >
+                <img 
+                  src="/logo.jpg" 
+                  alt="Auto Track Logo" 
+                  className="h-10 w-10 object-cover rounded-full border border-white shadow-md" 
+                />
+                <span className="font-bold text-xl">AutoTrack</span>
+              </Link>
             </div>
 
             {/* Center: Desktop Navigation Links (when logged in) */}
@@ -167,9 +176,17 @@ const Navbar = () => {
               >
                 {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
               </button>
-              <h1 className="text-2xl font-extrabold text-white tracking-wide font-[Poppins]">
-                🚗 AutoTrack
-              </h1>
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 text-2xl font-extrabold text-white tracking-wide font-[Poppins]"
+                >
+                <img 
+                  src="/logo.jpg" 
+                  alt="Auto Track Logo" 
+                  className="h-10 w-10 object-cover rounded-full border border-white shadow-md" 
+                />
+                <span className="font-bold text-xl">AutoTrack</span>
+              </Link>
             </div>
 
             {/* Desktop Links */}
