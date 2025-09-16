@@ -15,8 +15,10 @@ const notifyRoutes = require("./routes/notifyRoutes");
 
 
 app.use(cors({
-  origin:
+  origin: [
     "https://auto-track-client.onrender.com",
+    "https://cron-job.org"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -27,20 +29,20 @@ app.use("/api/auth", authRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/emails", emailRoutes);
 app.use("/api/phones", phoneRoutes);
-app.use("/manual-reminder", notifyRoutes); // temp route
+app.use("/send-reminder", notifyRoutes); // temp route
 
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
 
-app.get("/reminder", async (req, res) => {
-  try {
-    await sendExpiryReminders();
-    res.status(200).json({ message: "Reminder sent manually" });
-  } catch (err) {
-    res.status(500).json({ message: "Error", error: err.message });
-  }
-});
+// app.get("/reminder", async (req, res) => {
+//   try {
+//     await sendExpiryReminders();
+//     res.status(200).json({ message: "Reminder sent manually" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Error", error: err.message });
+//   }
+// });
 
 require("./cron/checkExpiry");
 
