@@ -545,7 +545,7 @@ const handleApproveAllUsers = async () => {
                   onClick={() => setShowPendingUsersModal(false)}
                   className="bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white p-2 rounded-xl transition-all duration-300"
                 >
-                  <FaTimes className="text-lg" />
+                  <FaExclamationTriangle className="text-lg" />
                 </button>
               </div>
 
