@@ -24,7 +24,7 @@ const Home = () => {
             
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent">
-                AutoTrack
+                KG VECHILES
               </span>
               <br />
               <span className="text-3xl md:text-4xl font-normal text-gray-300">
