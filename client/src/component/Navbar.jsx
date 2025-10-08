@@ -46,10 +46,10 @@ const Navbar = () => {
                 >
                 <img 
                   src="/logo.jpg" 
-                  alt="Auto Track Logo" 
+                  alt="KG VECHILES" 
                   className="h-10 w-10 object-cover rounded-full border border-white shadow-md" 
                 />
-                <span className="font-bold text-xl">AutoTrack</span>
+                <span className="font-bold text-xl">KG VECHILES</span>
               </Link>
             </div>
 
