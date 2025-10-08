@@ -190,8 +190,9 @@ const Home = () => {
       <div className="bg-white/5 backdrop-blur-lg border-y border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Built with Modern Technology</h2>
-            <p className="text-gray-300 text-lg">MERN Stack for maximum performance and scalability</p>
+            <h2 className="text-3xl font-bold text-white mb-4">KG VECHILES 
+</h2>
+            <p className="text-gray-300 text-lg">Succesfull  Work Last 30 + Years</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -199,32 +200,32 @@ const Home = () => {
               <div className="bg-green-500/20 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-green-400 text-2xl font-bold">M</span>
               </div>
-              <h4 className="text-white font-semibold mb-2">MongoDB</h4>
-              <p className="text-gray-400 text-sm">NoSQL Database</p>
+              <h4 className="text-white font-semibold mb-2">1500+</h4>
+              <p className="text-gray-400 text-sm"> Commercial Construction Done</p>
             </div>
             
             <div className="text-center group">
               <div className="bg-yellow-500/20 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-yellow-400 text-2xl font-bold">E</span>
               </div>
-              <h4 className="text-white font-semibold mb-2">Express.js</h4>
-              <p className="text-gray-400 text-sm">Backend Framework</p>
+              <h4 className="text-white font-semibold mb-2">3500+</h4>
+              <p className="text-gray-400 text-sm">Trusted Clients</p>
             </div>
             
             <div className="text-center group">
               <div className="bg-blue-500/20 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-blue-400 text-2xl font-bold">R</span>
               </div>
-              <h4 className="text-white font-semibold mb-2">React.js</h4>
-              <p className="text-gray-400 text-sm">Frontend Library</p>
+              <h4 className="text-white font-semibold mb-2">5000+</h4>
+              <p className="text-gray-400 text-sm">Reta, Gitti, Iron Completed Supplier</p>
             </div>
             
             <div className="text-center group">
               <div className="bg-green-600/20 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <span className="text-green-500 text-2xl font-bold">N</span>
               </div>
-              <h4 className="text-white font-semibold mb-2">Node.js</h4>
-              <p className="text-gray-400 text-sm">Runtime Environment</p>
+              <h4 className="text-white font-semibold mb-2">3000+</h4>
+              <p className="text-gray-400 text-sm">4. Cement + Senetry Ware  Supplier</p>
             </div>
           </div>
         </div>
