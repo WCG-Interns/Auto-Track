@@ -128,8 +128,8 @@ const Home = () => {
                 <FaCheckCircle className="text-blue-400 text-xl" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white mb-2">JWT Authentication</h3>
-                <p className="text-gray-300">Secure user authentication with encrypted tokens and session management.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Real-Time Vehicle Trackin</h3>
+                <p className="text-gray-300"> Monitor vehicle locations and movements in real-time for better fleet control and route optimization..</p>
               </div>
             </div>
             
@@ -138,8 +138,8 @@ const Home = () => {
                 <FaCheckCircle className="text-purple-400 text-xl" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white mb-2">MongoDB Integration</h3>
-                <p className="text-gray-300">Scalable NoSQL database for efficient vehicle and user data management.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Centralized Vehicle Records</h3>
+                <p className="text-gray-300">  Store and manage all vehicle details, including registration, maintenance, insurance, and driver info in one place..</p>
               </div>
             </div>
             
@@ -148,8 +148,9 @@ const Home = () => {
                 <FaCheckCircle className="text-green-400 text-xl" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white mb-2">Automated Notifications</h3>
-                <p className="text-gray-300">Smart cron jobs with Nodemailer for timely expiry reminders.</p>
+                <h3 className="text-xl font-bold text-white mb-2">Automated Maintenance Reminders</h3>
+                <p className="text-gray-300"> Set up smart notifications for upcoming service dates, insurance renewals, and fitness checks.
+      </p></p>
               </div>
             </div>
           </div>
