@@ -44,6 +44,10 @@ const Footer = () => {
     { name: 'Gitti (Stone Aggregate) Supply', href: '#services' },
     { name: 'Loha (Iron/Steel) Supply', href: '#services' },
     { name: 'Transport & Material Delivery', href: '#services' }
+    { name: 'Construction Work (Residential & Commercial)', href: '#services' }
+    { name: 'Civil Work & Site Development', href: '#services' }
+    { name: 'Bulk Material Ordersy', href: '#services' }
+    { name: 'Paver Block Supplier', href: '#services' }
   ];
 
   return (
