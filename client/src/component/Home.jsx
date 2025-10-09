@@ -150,7 +150,7 @@ const Home = () => {
               <div>
                 <h3 className="text-xl font-bold text-white mb-2">Automated Maintenance Reminders</h3>
                 <p className="text-gray-300"> Set up smart notifications for upcoming service dates, insurance renewals, and fitness checks.
-      </p></p>
+                </p>
               </div>
             </div>
           </div>
