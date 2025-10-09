@@ -21,7 +21,7 @@ const About = () => {
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            About <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent">AutoTrack</span>
+            About <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent"> KG Vechiles</span>
           </h1>
           
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -76,7 +76,7 @@ const About = () => {
         {/* Values Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div>
-            <h2 className="text-4xl font-bold text-white mb-8">Why Choose AutoTrack?</h2>
+            <h2 className="text-4xl font-bold text-white mb-8">Why Choose  KG Vechiles?</h2>
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
@@ -85,7 +85,7 @@ const About = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-2">Never Miss a Deadline</h4>
-                  <p className="text-gray-300">Advanced notification system ensures you're always 5 days ahead of any expiry.</p>
+                  <p className="text-gray-300">Advanced notification system ensures you're always few days ahead of any expiry.</p>
                 </div>
               </div>
               
@@ -95,7 +95,7 @@ const About = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-semibold mb-2">Enterprise-Grade Security</h4>
-                  <p className="text-gray-300">JWT authentication and encrypted data storage protect your sensitive information.</p>
+                  <p className="text-gray-300">  We value your privacy — all your details are kept secure and never shared with anyone.</p>
                 </div>
               </div>
               
@@ -104,8 +104,8 @@ const About = () => {
                   <FaCheckCircle className="text-purple-400" />
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-2">Scalable Architecture</h4>
-                  <p className="text-gray-300">Built on modern MERN stack for performance, reliability, and future growth.</p>
+                  <h4 className="text-white font-semibold mb-2">Grows With You</h4>
+                  <p className="text-gray-300">  Whether you manage one vehicle or an entire fleet, KG Vehicles is built to handle it all — easily and efficiently.</p>
                 </div>
               </div>
             </div>
@@ -139,44 +139,44 @@ const About = () => {
         {/* Technology Section */}
         <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-12 mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Powered by Modern Technology</h2>
-            <p className="text-gray-300 text-lg">Built with industry-leading tools and frameworks</p>
+            <h2 className="text-3xl font-bold text-white mb-4">KG VECHILES </h2>
+            <p className="text-gray-300 text-lg">Succesfull  Work Last 30 + Years</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             <div className="text-center group">
               <div className="bg-green-500/20 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-green-400 text-xl font-bold">M</span>
+                <span className="text-green-400 text-xl font-bold">1500+ </span>
               </div>
-              <h4 className="text-white font-semibold">MongoDB</h4>
+              <h4 className="text-white font-semibold">Commercial Construction Done</h4>
             </div>
             
             <div className="text-center group">
               <div className="bg-yellow-500/20 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-yellow-400 text-xl font-bold">E</span>
+                <span className="text-yellow-400 text-xl font-bold">3500+</span>
               </div>
-              <h4 className="text-white font-semibold">Express.js</h4>
+              <h4 className="text-white font-semibold">Trusted Clients</h4>
             </div>
             
             <div className="text-center group">
               <div className="bg-blue-500/20 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-blue-400 text-xl font-bold">R</span>
+                <span className="text-blue-400 text-xl font-bold">5000+</span>
               </div>
-              <h4 className="text-white font-semibold">React.js</h4>
+              <h4 className="text-white font-semibold">Reta, Gitti, Iron Completed Supplier</h4>
             </div>
             
             <div className="text-center group">
               <div className="bg-green-600/20 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-green-500 text-xl font-bold">N</span>
+                <span className="text-green-500 text-xl font-bold">3000+</span>
               </div>
-              <h4 className="text-white font-semibold">Node.js</h4>
+              <h4 className="text-white font-semibold">Cement + Senetry Ware  Supplie</h4>
             </div>
           </div>
           
           <div className="flex justify-center">
             <div className="flex items-center bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3">
               <FaCode className="text-blue-400 mr-3" />
-              <span className="text-white font-medium">MERN Stack Architecture</span>
+              <span className="text-white font-medium">Truthed organisation</span>
             </div>
           </div>
         </div>
@@ -227,7 +227,7 @@ const About = () => {
             <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 flex items-center mx-auto"
               onClick={() => window.location.href='/login'}
             >
-              Join AutoTrack Today
+              Join  KG Vechiles Today
               <FaRocket className="ml-3 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
           </div>
