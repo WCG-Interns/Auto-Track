@@ -49,7 +49,7 @@ const Navbar = () => {
                   alt="KG VEHICLES" 
                   className="h-10 w-10 object-cover rounded-full border border-white shadow-md" 
                 />
-                <span className="font-bold text-xl">KG VECHILES</span>
+                <span className="font-bold text-xl">KG VEHICLES</span>
               </Link>
             </div>
 
