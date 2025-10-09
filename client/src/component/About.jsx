@@ -21,7 +21,7 @@ const About = () => {
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            About <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent"> KG Vechiles</span>
+            About <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-600 bg-clip-text text-transparent"> KG Vehicles</span>
           </h1>
           
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -76,7 +76,7 @@ const About = () => {
         {/* Values Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div>
-            <h2 className="text-4xl font-bold text-white mb-8">Why Choose  KG Vechiles?</h2>
+            <h2 className="text-4xl font-bold text-white mb-8">Why Choose  KG Vehicles?</h2>
             
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
@@ -139,7 +139,7 @@ const About = () => {
         {/* Technology Section */}
         <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-12 mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">KG VECHILES </h2>
+            <h2 className="text-3xl font-bold text-white mb-4">KG VEHICLES </h2>
             <p className="text-gray-300 text-lg">Succesfull  Work Last 30 + Years</p>
           </div>
           
@@ -227,7 +227,7 @@ const About = () => {
             <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105 flex items-center mx-auto"
               onClick={() => window.location.href='/login'}
             >
-              Join  KG Vechiles Today
+              Join  KG Vehicles Today
               <FaRocket className="ml-3 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
           </div>
