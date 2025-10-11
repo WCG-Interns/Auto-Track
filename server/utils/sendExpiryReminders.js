@@ -42,7 +42,7 @@ const sendExpiryReminders = async () => {
             "Vehicle Document Expiry Alert",
             `Dear User,\n\nThe following documents for vehicle "${vehicle.vehicleNumber}" are expiring soon:\n\n${upcomingExpiries.join(
               "\n"
-            )}\n\nPlease renew them to avoid penalties.\n\n- White Circle Group`
+            )}\n\nPlease renew them to avoid penalties.\n\n- KG Vehicles`
           );
         }
         const phones = await PhoneList.find({ addedBy: userId });
@@ -51,7 +51,7 @@ const sendExpiryReminders = async () => {
             phone.phone, // format +91 i.e. code 
             `⚠️ *Reminder!* Your vehicle *${vehicle.vehicleNumber}* has document(s) expiring soon! 🗓️\n\n📄 *Expiring Documents:*\n${upcomingExpiries.join(
             "\n"
-            )}\n\n✅ Please renew them *before the deadline* to avoid penalties and keep your vehicle running smoothly.\n\n🚗 Safe travels! — *White Circle Group*`
+            )}\n\n✅ Please renew them *before the deadline* to avoid penalties and keep your vehicle running smoothly.\n\n🚗 Safe travels! — *KG Vehicles*`
           );
         }
       }

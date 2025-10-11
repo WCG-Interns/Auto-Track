@@ -1,20 +1,26 @@
 // utils/sendWhatsapp.js
-const twilio = require("twilio");
-
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
+const axios = require('axios');
 
 async function sendWhatsapp(to, message) {
   try {
-    await client.messages.create({
-      from: "whatsapp:+14155238886", // Twilio sandbox number
-      to: `whatsapp:${to}`, // user phone with country code
-      body: message,
+
+    const ph = to.replace(/^\+91/, '').replace(/\D/g, '');
+
+    const res = await axios.get('https://bhashsms.com/api/sendmsgutil.php', {
+      params: {
+        user: 'white_circle',
+        pass: '123456',
+        sender: 'BUZWAP',
+        phone: ph,
+        text: message,
+        priority: 'wa',
+        stype: 'normal',
+        Params: '11,22'
+      }
     });
-    console.log(`WhatsApp sent to ${to}`);
+    console.log('API Response:', res.data);
   } catch (err) {
-    console.error(`WhatsApp failed to ${to}:`, err.message);
+    console.error('Error:', err.message);
   }
 }
 
